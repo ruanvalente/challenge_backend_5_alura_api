@@ -14,7 +14,6 @@ class VideosController < ApplicationController
     @video = Video.find(params[:id])
     render json: @video, status: :ok
     rescue ActiveRecord::RecordNotFound => error 
-      puts error
       render json: { error: error.message }, status: :not_found
   end
 
