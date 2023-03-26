@@ -37,6 +37,12 @@ class CategoriesController < ApplicationController
     end
   end
 
+  def videos
+    category = Category.find(params[:id])
+    videos = category.videos.order(created_at: :desc)
+    render json: { videos: videos }
+  end
+
   # DELETE /categories/1
   def destroy
     @category.destroy
