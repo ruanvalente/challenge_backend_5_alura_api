@@ -4,9 +4,17 @@ class VideosController < ApplicationController
 
   # GET /videos
   def index
-    @videos = Video.order(created_at: :desc)
+    # @videos = Video.order(created_at: :desc)
 
-    render json: { videos: @videos }, status: :ok
+    # render json: { videos: @videos }, status: :ok
+
+    if params[:search]
+      @videos = VideoSearch.new(params[:search]).result
+      render json: { videos: @videos }, status: :ok
+    else
+      @videos = Video.order(created_at: :desc)
+      render json: { videos: @videos }, status: :ok
+    end
   end
 
   # GET /videos/1
