@@ -1,7 +1,6 @@
 require "test_helper"
 
 class VideoTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "should create video" do
+  end
 end
