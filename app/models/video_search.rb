@@ -4,8 +4,8 @@ class VideoSearch
   end
 
   def result
-    if @query.present?
-      Video.order(created_at: :desc).where("title LIKE ?", "%#{@query}%")
-    end
+    return unless @query.present?
+
+    Video.order(created_at: :desc).where('title LIKE ?', "%#{@query}%")
   end
 end
