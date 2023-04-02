@@ -67,4 +67,6 @@ RSpec.configure do |config|
       with.library :rails
     end
   end
+  # VideosHelper
+  config.include VideosHelper
 end
