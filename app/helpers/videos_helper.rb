@@ -7,8 +7,8 @@ module VideosHelper
     items.limit(limit).offset(offset)
   end
 
-  def calculate_total_pages(total_items, limit)
-    (total_items.to_f / limit).ceil
+  def calculate_total_pages(total_items)
+    total_items.count
   end
 
   def validate_and_set_page_size(size, limit)
@@ -21,7 +21,7 @@ module VideosHelper
     size = validate_and_set_page_size(size, limit)
     offset = calculate_offset(page, limit)
     items = fetch_paginated_items(items, limit, offset)
-    total_pages = calculate_total_pages(Video.count, limit)
+    total_pages = calculate_total_pages(items)
     current_page = [page, total_pages].min
 
     {
