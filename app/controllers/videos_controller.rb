@@ -1,4 +1,6 @@
 class VideosController < ApplicationController
+  include VideosHelper
+
   rescue_from ActiveRecord::RecordNotFound, with: :video_not_found
   before_action :set_video, only: %i[show update destroy]
 
@@ -9,7 +11,8 @@ class VideosController < ApplicationController
       render json: { videos: @videos }, status: :ok
     else
       @videos = Video.order(created_at: :desc)
-      render json: { videos: @videos }, status: :ok
+      pagination = paginate(@videos, page: params[:page])
+      render json: { videos: pagination[:items], meta: { total_pages: pagination[:total_pages], current_page: pagination[:current_page] } }, status: :ok
     end
   end
 
