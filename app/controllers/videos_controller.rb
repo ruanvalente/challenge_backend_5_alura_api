@@ -2,6 +2,8 @@ class VideosController < ApplicationController
   include VideosHelper
 
   rescue_from ActiveRecord::RecordNotFound, with: :video_not_found
+
+  before_action :authenticate_request, only: %i[show update destroy]
   before_action :set_video, only: %i[show update destroy]
 
   # GET /videos
@@ -58,6 +60,17 @@ class VideosController < ApplicationController
 
   def video_not_found
     render json: { error: 'Video not found' }, status: :not_found
+  end
+
+  def authenticate_request
+    header = request.headers['Authorization']
+    token = header.split(' ').last if header
+    begin
+      @decoded = JWT.decode(token, Rails.application.secrets.secret_key_base, true, { algorithm: 'HS256' })
+      @current_user = User.find(@decoded[0]['user_id'])
+    rescue JWT::DecodeError
+      render json: { error: 'Invalid token' }, status: :unauthorized
+    end
   end
 
   # Only allow a list of trusted parameters through.
