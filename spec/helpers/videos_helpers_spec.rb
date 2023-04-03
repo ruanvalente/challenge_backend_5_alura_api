@@ -14,8 +14,8 @@ RSpec.describe VideosHelper, type: :helper do
 
     it 'fetches the correct paginated items' do
       expect(items).to receive(:limit).with(5).and_return(items)
-      expect(items).to receive(:offset).with(0).and_return(items)
-      fetch_paginated_items(items, 5, 0)
+      expect(items).to receive(:offset).with(10).and_return(items)
+      fetch_paginated_items(items, 5, 10)
     end
   end
 
@@ -23,7 +23,9 @@ RSpec.describe VideosHelper, type: :helper do
     let(:items) { double('items', count: 15) }
 
     it 'returns the correct total pages' do
-      expect(calculate_total_pages(items)).to eq(15)
+      expect(calculate_total_pages(10, 5)).to eq(2)
+      expect(calculate_total_pages(11, 5)).to eq(3)
+      expect(calculate_total_pages(15, 10)).to eq(2)
     end
   end
 
@@ -38,17 +40,20 @@ RSpec.describe VideosHelper, type: :helper do
   describe '#paginate' do
     let(:items) { double('items') }
 
-    it 'returns the correct pagination data' do
-      expect(items).to receive(:limit).with(5).and_return(items)
-      expect(items).to receive(:offset).with(0).and_return(items)
-      expect(items).to receive(:count).and_return(15)
-      expect(paginate(items, page: 1, size: 3, limit: 5)).to eq({
-                                                                  items: items,
-                                                                  total_pages: 15,
-                                                                  current_page: 1,
-                                                                  limit: 5,
-                                                                  size: 3
-                                                                })
+    before do
+      allow(items).to receive(:count).and_return(30)
+      allow(items).to receive(:limit).and_return(items)
+      allow(items).to receive(:offset).and_return(items)
+    end
+
+    it 'paginates the items correctly' do
+      result = paginate(items, page: 2, size: 5, limit: 5)
+
+      expect(result[:items]).to eq(items)
+      expect(result[:total_pages]).to eq(6)
+      expect(result[:current_page]).to eq(2)
+      expect(result[:limit]).to eq(5)
+      expect(result[:size]).to eq(5)
     end
   end
 end
