@@ -10,6 +10,7 @@ gem 'kaminari'
 gem "net-http"
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 7.0.4', '>= 7.0.4.3'
+gem 'rswag'
 gem 'sqlite3', '~> 1.4'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

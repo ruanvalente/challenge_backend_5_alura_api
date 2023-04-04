@@ -24,6 +24,7 @@ Aluraflix é uma implementação de uma `API REST` desenvolvida durante o **Alur
 - [rspec](https://rspec.info/)
 - [kaminari](https://github.com/kaminari/kaminari)
 - [jwt](https://github.com/jwt/ruby-jwt)
+- [Swagger]()
 
 ## Como utilizar 🤔
 
@@ -39,6 +40,21 @@ Entre na pasta `challenge_backend_5_alura_api` e rode o comando `bundler install
 cd challenge_backend_5_alura_api
 bundler install
 ```
+
+## Endpoints 🤯
+
+Cada endpoint da aplicação pode ser consultado atráves do **swagger** [nesta url](http://127.0.0.1:3000/api-docs/index.html).
+
+Utilizando está ferramenta, você ira conseguir visualizar com mais detalhes cada endpoint para ser explorado dentro da aplicação.
+
+<div>
+  <p align="center">Tela do swagger</p>
+<div>
+<div>
+    <img src="https://i.postimg.cc/Hx26Wx7w/Captura-de-Tela-2023-04-03-a-s-22-12-53.png" alt="Aluraflix swagger doc">
+</div>
+
+> Lembrando que este endereço de URL está apontando para o ambiente local na porta 3000.
 
 ## Veja a aplicação no ar :tada:
 
