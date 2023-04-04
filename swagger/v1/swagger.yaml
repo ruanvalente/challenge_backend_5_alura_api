@@ -1,0 +1,383 @@
+swagger: "2.0"
+info:
+  title: Aluraflix
+  description: É uma API para uma Plataforma de compatilhamento de vídeos. A plataforma deve permitir ao usuário montar playlists com links para seus vídeos preferidos, separados por categorias.
+  version: "1.0"
+basePath: /
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: "Insira o token JWT no formato 'Bearer <token>'"
+produces:
+  - application/json
+consumes:
+  - application/json
+paths:
+  /videos:
+    get:
+      tags:
+        - Videos
+      summary: Lista todos os vídeos
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Video"
+    post:
+      tags:
+        - Videos
+      summary: Cria um novo vídeo
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: token
+          in: header
+          description: "Token de autenticação do usuário"
+          required: true
+          type: string
+
+        - name: video
+          in: body
+          description: Objeto de vídeo a ser criado
+          required: true
+          schema:
+            $ref: "#/definitions/VideoInput"
+      responses:
+        "201":
+          description: Criado
+          schema:
+            $ref: "#/definitions/Video"
+        "400":
+          description: Requisição inválida
+  /videos/{videoId}:
+    parameters:
+      - name: token
+        in: header
+        description: "Token de autenticação do usuário"
+        required: true
+        type: string
+
+      - name: videoId
+        in: path
+        description: ID do vídeo a ser manipulado
+        required: true
+        type: integer
+    get:
+      tags:
+        - Videos
+      summary: Retorna um vídeo específico
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/Video"
+        "404":
+          description: Vídeo não encontrado
+    put:
+      tags:
+        - Videos
+      summary: Atualiza um vídeo existente
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: token
+          in: header
+          description: "Token de autenticação do usuário"
+          required: true
+          type: string
+
+        - name: video
+          in: body
+          description: Objeto de vídeo a ser atualizado
+          required: true
+          schema:
+            $ref: "#/definitions/VideoInput"
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/Video"
+        "404":
+          description: Vídeo não encontrado
+        "400":
+          description: Requisição inválida
+    delete:
+      tags:
+        - Videos
+      summary: Remove um vídeo existente
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: Sem conteúdo
+        "404":
+          description: Vídeo não encontrado
+        "400":
+          description: Requisição inválida
+  /categories/{categoryId}/videos:
+    parameters:
+      - name: categoryId
+        in: path
+        description: ID da categoria que contém os vídeos
+        required: true
+        type: integer
+    get:
+      tags:
+        - Categories
+      summary: Lista todos os vídeos de uma categoria específica
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Video"
+  /categories:
+    get:
+      tags:
+        - Categories
+      summary: Lista todas as categorias
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Category"
+    post:
+      tags:
+        - Categories
+      summary: Cria uma nova categoria
+      parameters:
+        - name: category
+          in: body
+          description: Objeto de categoria a ser criado
+          required: true
+          schema:
+            $ref: "#/definitions/CategoryInput"
+      responses:
+        "201":
+          description: Criado
+          schema:
+            $ref: "#/definitions/Category"
+        "400":
+          description: Requisição inválida
+  /categories/{categoryId}:
+    parameters:
+      - name: categoryId
+        in: path
+        description: ID da categoria a ser manipulada
+        required: true
+        type: integer
+    get:
+      tags:
+        - Categories
+      summary: Retorna uma categoria específica
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/Category"
+        "404":
+          description: Categoria não encontrada
+    put:
+      tags:
+        - Categories
+      summary: Atualiza uma categoria existente
+      parameters:
+        - name: category
+          in: body
+          description: Objeto de categoria a ser atualizado
+          required: true
+          schema:
+            $ref: "#/definitions/CategoryInput"
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/Category"
+        "404":
+          description: Categoria não encontrada
+        "400":
+          description: Requisição inválida
+    delete:
+      tags:
+        - Categories
+      summary: Remove uma categoria existente
+      responses:
+        "204":
+          description: Sem conteúdo
+        "404":
+          description: Categoria não encontrada
+        "400":
+          description: Requisição inválida
+  /users:
+    post:
+      tags:
+        - Users
+      summary: Cria um novo usuário
+      description: "Endpoint para criação de um novo usuário"
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: "Dados do usuário a ser criado"
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+              password_confirmation:
+                type: string
+      responses:
+        "201":
+          description: "Usuário criado com sucesso"
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              email:
+                type: string
+              password_digest:
+                type: string
+        "400":
+          description: "Dados inválidos"
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+        "422":
+          description: "Usuário já existente"
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Email has already been taken"
+        "500":
+          description: "Erro interno do servidor"
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+  /login:
+    post:
+      tags:
+        - Login
+      summary: Autentica um usuário
+      description: "Endpoint para autenticação de um usuário"
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: "Dados de login do usuário"
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        "200":
+          description: "Usuário autenticado com sucesso"
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+        "400":
+          description: "Dados inválidos"
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+        "401":
+          description: "Credenciais inválidas"
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+        "500":
+          description: "Erro interno do servidor"
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+
+definitions:
+  Video:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: ID do vídeo
+      title:
+        type: string
+        description: Título do vídeo
+      description:
+        type: string
+        description: Descrição do vídeo
+      url:
+        type: string
+        description: URL do vídeo
+      category_id:
+        type: integer
+        description: ID da categoria do vídeo
+    required:
+      - id
+      - title
+      - url
+      - category_id
+  VideoInput:
+    type: object
+  Category:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: ID da categoria
+      title:
+        type: string
+        description: Título da categoria
+      color:
+        type: string
+        description: Cor da categoria
+    required:
+      - id
+      - title
+      - color
+  CategoryInput:
+    type: object
+    properties:
+      title:
+        type: string
+        description: Título da categoria
+      color:
+        type: string
+        description: Cor da categoria
+    required:
+      - title
+      - color
