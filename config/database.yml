@@ -81,6 +81,7 @@ test:
 #
 production:
   <<: *default
-  database: challenge_backend_5_alura_api_production
-  username: challenge_backend_5_alura_api
-  password: <%= ENV["CHALLENGE_BACKEND_5_ALURA_API_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
+  database: <%= ENV["DATABASE"] %>
+  username: <%= ENV["USERNAME"] %>
+  password: <%= ENV["DATABASE_PASSWORD"] %>
