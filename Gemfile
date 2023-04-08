@@ -24,7 +24,6 @@ group :development, :test do
   gem 'rubocop'
   gem 'shoulda-matchers', '~> 5.0'
   gem 'solargraph'
-  gem 'sqlite3'
 end
 
 group :development do
