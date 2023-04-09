@@ -43,7 +43,7 @@ bundler install
 
 ## Endpoints 🤯
 
-Cada endpoint da aplicação pode ser consultado atráves do **swagger** [nesta url](http://127.0.0.1:3000/api-docs/index.html).
+Cada endpoint da aplicação pode ser consultado atráves do **swagger** [nesta url](https://aluraflix.onrender.com/api-docs/index.html).
 
 Utilizando está ferramenta, você ira conseguir visualizar com mais detalhes cada endpoint para ser explorado dentro da aplicação.
 
@@ -54,13 +54,9 @@ Utilizando está ferramenta, você ira conseguir visualizar com mais detalhes ca
     <img src="https://i.postimg.cc/Hx26Wx7w/Captura-de-Tela-2023-04-03-a-s-22-12-53.png" alt="Aluraflix swagger doc">
 </div>
 
-> Lembrando que este endereço de URL está apontando para o ambiente local na porta 3000.
-
 ## Veja a aplicação no ar :tada:
 
-🚧 em breve 🫡
-
-E agora é só se divertir :smile:
+Basta acessar está [URL](https://aluraflix.onrender.com/videos?page=1) e agora é só se divertir :smile:
 
 ## :memo: Licença
 
