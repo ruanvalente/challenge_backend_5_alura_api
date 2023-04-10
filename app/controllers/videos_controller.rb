@@ -13,7 +13,7 @@ class VideosController < ApplicationController
       render json: { videos: @videos }, status: :ok
     else
       @videos = Video.order(created_at: :desc)
-      pagination = paginate(@videos, page: params[:page])
+      pagination = paginate(@videos, page: params[:page] || 1)
       render json: { videos: pagination[:items], meta: { total_pages: pagination[:total_pages], current_page: pagination[:current_page] } }, status: :ok
     end
   end
